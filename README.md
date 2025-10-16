@@ -50,6 +50,50 @@ pnpm dev
 ```
 Open your browser and go to `http://localhost:3000` to view the application.
 
+## Deployment
+
+### Deploy to Vercel (Recommended)
+
+The easiest way to deploy this Next.js app is to use [Vercel](https://vercel.com):
+
+1. **Push your code to GitHub** (if not already done)
+2. **Visit [vercel.com](https://vercel.com)** and sign up/login
+3. **Click "New Project"** and import your GitHub repository
+4. **Configure the project**:
+   - Framework Preset: **Next.js**
+   - Build Command: `pnpm build` (auto-detected)
+   - Install Command: `pnpm install` (auto-detected)
+   - Output Directory: `.next` (auto-detected)
+5. **Click "Deploy"** and wait for the build to complete
+6. **Your app is live!** Vercel will provide you with a URL
+
+### Manual Deployment Steps
+
+If you prefer manual deployment:
+
+```bash
+# Build the application
+pnpm build
+
+# Start the production server
+pnpm start
+```
+
+### Environment Variables
+
+For production deployment, you may want to set:
+
+- `NEXT_PUBLIC_APP_URL`: Your production URL
+- Copy `.env.example` to `.env.local` for local development
+
+### Features Optimized for Production
+
+- ✅ **Static Generation**: Fast loading times
+- ✅ **Client-side Storage**: Works offline with localStorage
+- ✅ **Responsive Design**: Mobile and desktop optimized
+- ✅ **Progressive Enhancement**: Voice features work where supported
+- ✅ **Performance**: Optimized bundle size and loading
+
 ## Voice Commands Usage
 
 The app supports voice input for adding items:
