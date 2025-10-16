@@ -1,11 +1,8 @@
 {
-  "buildCommand": "corepack enable && pnpm install && pnpm run build",
-  "devCommand": "pnpm dev",
-  "installCommand": "corepack enable && pnpm install",
+  "buildCommand": "npm ci && npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm ci",
   "framework": "nextjs",
-  "env": {
-    "ENABLE_EXPERIMENTAL_COREPACK": "1"
-  },
   "functions": {
     "app/**/*.{js,ts,tsx}": {
       "maxDuration": 10
