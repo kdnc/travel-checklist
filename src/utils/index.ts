@@ -23,18 +23,20 @@ export const saveCategoriesToLocalStorage = (categories: CategoryType[]) => {
 export const getCategoriesFromLocalStorage = (): CategoryType[] => {
   if (typeof window !== "undefined") {
     const categories = localStorage.getItem("travelCategories");
-    return categories ? JSON.parse(categories) : [
-      { id: "clothing", name: "Clothing & Accessories" },
-      { id: "documents", name: "Documents & Money" },
-      { id: "electronics", name: "Electronics" },
-      { id: "toiletries", name: "Toiletries & Health" }
-    ];
+    return categories
+      ? JSON.parse(categories)
+      : [
+          { id: "clothing", name: "Clothing & Accessories" },
+          { id: "documents", name: "Documents & Money" },
+          { id: "electronics", name: "Electronics" },
+          { id: "toiletries", name: "Toiletries & Health" },
+        ];
   }
   return [
     { id: "clothing", name: "Clothing & Accessories" },
     { id: "documents", name: "Documents & Money" },
     { id: "electronics", name: "Electronics" },
-    { id: "toiletries", name: "Toiletries & Health" }
+    { id: "toiletries", name: "Toiletries & Health" },
   ];
 };
 

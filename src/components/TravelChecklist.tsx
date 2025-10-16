@@ -15,16 +15,16 @@ import {
   saveCategoriesToLocalStorage,
   getCategoriesFromLocalStorage,
 } from "../utils";
-import { 
-  CheckCircle, 
-  Circle, 
-  MapPin, 
-  Shirt, 
-  FileText, 
-  Smartphone, 
-  Heart, 
+import {
+  CheckCircle,
+  Circle,
+  MapPin,
+  Shirt,
+  FileText,
+  Smartphone,
+  Heart,
   Package,
-  X
+  X,
 } from "lucide-react";
 
 const TravelChecklist: React.FC = () => {
@@ -40,16 +40,20 @@ const TravelChecklist: React.FC = () => {
       documents: <FileText className="h-4 w-4" />,
       electronics: <Smartphone className="h-4 w-4" />,
       toiletries: <Heart className="h-4 w-4" />,
-      other: <Package className="h-4 w-4" />
+      other: <Package className="h-4 w-4" />,
     };
-    return iconMap[categoryId as keyof typeof iconMap] || <Package className="h-4 w-4" />;
+    return (
+      iconMap[categoryId as keyof typeof iconMap] || (
+        <Package className="h-4 w-4" />
+      )
+    );
   };
 
-    // Load items from localStorage on component mount
+  // Load items from localStorage on component mount
   useEffect(() => {
     const savedItems = getChecklistFromLocalStorage();
     setItems(savedItems);
-    
+
     const savedCategories = getCategoriesFromLocalStorage();
     setCategories(savedCategories);
   }, []);
@@ -99,7 +103,7 @@ const TravelChecklist: React.FC = () => {
     if (editingCategory && editingName.trim()) {
       setCategories(
         categories.map((category) =>
-          category.id === editingCategory 
+          category.id === editingCategory
             ? { ...category, name: editingName.trim() }
             : category
         )
@@ -115,9 +119,9 @@ const TravelChecklist: React.FC = () => {
   };
 
   const handleCategoryKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       saveEditingCategory();
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       cancelEditingCategory();
     }
   };
@@ -127,14 +131,14 @@ const TravelChecklist: React.FC = () => {
   };
 
   const addNewCategory = (categoryName: string) => {
-    const categoryId = categoryName.toLowerCase().replace(/\s+/g, '-');
+    const categoryId = categoryName.toLowerCase().replace(/\s+/g, "-");
     const newCategory: CategoryType = {
       id: categoryId,
-      name: categoryName
+      name: categoryName,
     };
-    
+
     // Check if category already exists
-    if (!categories.find(cat => cat.id === categoryId)) {
+    if (!categories.find((cat) => cat.id === categoryId)) {
       setCategories([...categories, newCategory]);
       setActiveTab(categoryId); // Switch to the new category
     }
@@ -147,12 +151,12 @@ const TravelChecklist: React.FC = () => {
     }
 
     // Remove all items in this category
-    setItems(items.filter(item => item.category !== categoryId));
-    
+    setItems(items.filter((item) => item.category !== categoryId));
+
     // Remove the category
-    const updatedCategories = categories.filter(cat => cat.id !== categoryId);
+    const updatedCategories = categories.filter((cat) => cat.id !== categoryId);
     setCategories(updatedCategories);
-    
+
     // Switch to first available category if current category is being deleted
     if (activeTab === categoryId) {
       setActiveTab(updatedCategories[0].id);
@@ -160,12 +164,12 @@ const TravelChecklist: React.FC = () => {
   };
 
   const getItemsByCategory = (categoryId: string) => {
-    return items.filter(item => item.category === categoryId);
+    return items.filter((item) => item.category === categoryId);
   };
 
   const getCategoryStats = (categoryId: string) => {
     const categoryItems = getItemsByCategory(categoryId);
-    const completed = categoryItems.filter(item => item.completed).length;
+    const completed = categoryItems.filter((item) => item.completed).length;
     const total = categoryItems.length;
     return { completed, total, isComplete: total > 0 && completed === total };
   };
@@ -205,10 +209,12 @@ const TravelChecklist: React.FC = () => {
                   const stats = getCategoryStats(category.id);
                   return (
                     <div key={category.id} className="relative">
-                      <TabsTrigger 
+                      <TabsTrigger
                         value={category.id}
                         className="flex flex-col items-center gap-1 text-xs relative h-14 px-2 w-full group"
-                        onDoubleClick={() => startEditingCategory(category.id, category.name)}
+                        onDoubleClick={() =>
+                          startEditingCategory(category.id, category.name)
+                        }
                       >
                         {editingCategory === category.id ? (
                           <input
@@ -222,15 +228,18 @@ const TravelChecklist: React.FC = () => {
                             onClick={(e) => e.stopPropagation()}
                           />
                         ) : (
-                          <span 
-                            className="text-center cursor-pointer text-xs leading-tight" 
+                          <span
+                            className="text-center cursor-pointer text-xs leading-tight"
                             title="Double-tap to rename"
                           >
-                            {category.name.split(' ')[0]}
+                            {category.name.split(" ")[0]}
                           </span>
                         )}
                         {stats.total > 0 && (
-                          <Badge variant={stats.isComplete ? "success" : "secondary"} className="text-xs absolute -top-1 -right-1 h-4 w-4 p-0 rounded-full flex items-center justify-center">
+                          <Badge
+                            variant={stats.isComplete ? "success" : "secondary"}
+                            className="text-xs absolute -top-1 -right-1 h-4 w-4 p-0 rounded-full flex items-center justify-center"
+                          >
                             {stats.completed}
                           </Badge>
                         )}
@@ -257,13 +266,13 @@ const TravelChecklist: React.FC = () => {
                   );
                 })}
               </TabsList>
-              
+
               {/* Horizontal separators between rows */}
               {categories.length > 2 && (
                 <div className="w-full h-px bg-border/30" />
               )}
             </div>
-            
+
             <div className="px-1">
               <AddCategory onAddCategory={addNewCategory} />
             </div>
@@ -277,10 +286,12 @@ const TravelChecklist: React.FC = () => {
                   const stats = getCategoryStats(category.id);
                   return (
                     <div key={category.id} className="w-full">
-                      <TabsTrigger 
+                      <TabsTrigger
                         value={category.id}
                         className="w-full justify-start gap-3 text-sm relative h-12 px-4 group"
-                        onDoubleClick={() => startEditingCategory(category.id, category.name)}
+                        onDoubleClick={() =>
+                          startEditingCategory(category.id, category.name)
+                        }
                       >
                         {editingCategory === category.id ? (
                           <input
@@ -294,15 +305,18 @@ const TravelChecklist: React.FC = () => {
                             onClick={(e) => e.stopPropagation()}
                           />
                         ) : (
-                          <span 
-                            className="flex-1 text-left cursor-pointer" 
+                          <span
+                            className="flex-1 text-left cursor-pointer"
                             title="Double-click to rename"
                           >
                             {category.name}
                           </span>
                         )}
                         {stats.total > 0 && (
-                          <Badge variant={stats.isComplete ? "success" : "secondary"} className="text-xs">
+                          <Badge
+                            variant={stats.isComplete ? "success" : "secondary"}
+                            className="text-xs"
+                          >
                             {stats.completed}/{stats.total}
                           </Badge>
                         )}
@@ -331,33 +345,43 @@ const TravelChecklist: React.FC = () => {
                   );
                 })}
               </TabsList>
-              
+
               <div className="px-1">
                 <AddCategory onAddCategory={addNewCategory} />
               </div>
             </div>
 
             <div className="flex-1 space-y-6">
-              <ChecklistForm 
-                onAddItem={addItem} 
-                currentCategory={activeTab} 
+              <ChecklistForm
+                onAddItem={addItem}
+                currentCategory={activeTab}
                 categories={categories}
                 onCategoryChange={handleCategoryChange}
               />
               {categories.map((category) => {
                 const categoryItems = getItemsByCategory(category.id);
                 const stats = getCategoryStats(category.id);
-                
+
                 return (
-                  <TabsContent key={category.id} value={category.id} className="mt-0">
+                  <TabsContent
+                    key={category.id}
+                    value={category.id}
+                    className="mt-0"
+                  >
                     <div className="space-y-4 border-l-4 border-primary/20 pl-4">
                       <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-border/50">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-semibold text-lg">{category.name}</h3>
+                          <h3 className="font-semibold text-lg">
+                            {category.name}
+                          </h3>
                         </div>
                         {stats.total > 0 && (
                           <div className="flex items-center gap-2">
-                            <Badge variant={stats.isComplete ? "success" : "secondary"}>
+                            <Badge
+                              variant={
+                                stats.isComplete ? "success" : "secondary"
+                              }
+                            >
                               {stats.completed}/{stats.total} completed
                             </Badge>
                             {stats.isComplete && (
@@ -381,8 +405,12 @@ const TravelChecklist: React.FC = () => {
                         </div>
                       ) : (
                         <div className="text-center py-8 border-2 border-dashed border-muted-foreground/25 rounded-lg">
-                          <p className="text-muted-foreground mt-2">No items in {category.name.toLowerCase()} yet.</p>
-                          <p className="text-sm text-muted-foreground">Add items using the form above!</p>
+                          <p className="text-muted-foreground mt-2">
+                            No items in {category.name.toLowerCase()} yet.
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Add items using the form above!
+                          </p>
                         </div>
                       )}
                     </div>
@@ -394,26 +422,34 @@ const TravelChecklist: React.FC = () => {
 
           {/* Mobile content area */}
           <div className="md:hidden space-y-3">
-            <ChecklistForm 
-              onAddItem={addItem} 
-              currentCategory={activeTab} 
+            <ChecklistForm
+              onAddItem={addItem}
+              currentCategory={activeTab}
               categories={categories}
               onCategoryChange={handleCategoryChange}
             />
             {categories.map((category) => {
               const categoryItems = getItemsByCategory(category.id);
               const stats = getCategoryStats(category.id);
-              
+
               return (
-                <TabsContent key={category.id} value={category.id} className="mt-0">
+                <TabsContent
+                  key={category.id}
+                  value={category.id}
+                  className="mt-0"
+                >
                   <div className="space-y-3 border-l-4 border-primary/20 pl-3">
                     <div className="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-border/50">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-lg">{category.name}</h3>
+                        <h3 className="font-semibold text-lg">
+                          {category.name}
+                        </h3>
                       </div>
                       {stats.total > 0 && (
                         <div className="flex items-center gap-2">
-                          <Badge variant={stats.isComplete ? "success" : "secondary"}>
+                          <Badge
+                            variant={stats.isComplete ? "success" : "secondary"}
+                          >
                             {stats.completed}/{stats.total}
                           </Badge>
                           {stats.isComplete && (
@@ -437,8 +473,12 @@ const TravelChecklist: React.FC = () => {
                       </div>
                     ) : (
                       <div className="text-center py-6 border-2 border-dashed border-muted-foreground/25 rounded-lg">
-                        <p className="text-muted-foreground mt-2 text-sm">No {category.name.toLowerCase()} yet.</p>
-                        <p className="text-xs text-muted-foreground">Add items using the form above!</p>
+                        <p className="text-muted-foreground mt-2 text-sm">
+                          No {category.name.toLowerCase()} yet.
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Add items using the form above!
+                        </p>
                       </div>
                     )}
                   </div>

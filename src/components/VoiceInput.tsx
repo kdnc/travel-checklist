@@ -12,20 +12,24 @@ interface VoiceInputProps {
 const VoiceInput: React.FC<VoiceInputProps> = ({ onVoiceResult }) => {
   const [isListening, setIsListening] = useState(false);
   const [isSupported, setIsSupported] = useState(false);
-  const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
+  const [recognition, setRecognition] = useState<SpeechRecognition | null>(
+    null
+  );
 
   useEffect(() => {
     // Check if speech recognition is supported
-    if (typeof window !== 'undefined') {
-      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-      
+    if (typeof window !== "undefined") {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition ||
+        (window as any).webkitSpeechRecognition;
+
       if (SpeechRecognition) {
         setIsSupported(true);
-        
+
         const recognitionInstance = new SpeechRecognition();
         recognitionInstance.continuous = false;
         recognitionInstance.interimResults = false;
-        recognitionInstance.lang = 'en-US';
+        recognitionInstance.lang = "en-US";
 
         recognitionInstance.onstart = () => {
           setIsListening(true);
@@ -38,7 +42,7 @@ const VoiceInput: React.FC<VoiceInputProps> = ({ onVoiceResult }) => {
         };
 
         recognitionInstance.onerror = (event: any) => {
-          console.error('Speech recognition error:', event.error);
+          console.error("Speech recognition error:", event.error);
           setIsListening(false);
         };
 

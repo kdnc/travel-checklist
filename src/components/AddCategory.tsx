@@ -28,7 +28,7 @@ const AddCategory: React.FC<AddCategoryProps> = ({ onAddCategory }) => {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       handleCancel();
     }
   };
@@ -63,7 +63,12 @@ const AddCategory: React.FC<AddCategoryProps> = ({ onAddCategory }) => {
           <Plus className="h-4 w-4 mr-1" />
           Add
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={handleCancel}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={handleCancel}
+        >
           <X className="h-4 w-4" />
         </Button>
       </div>

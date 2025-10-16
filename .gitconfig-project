@@ -1,0 +1,16 @@
+[user]
+    name = Travel Checklist Project
+    email = nuwanlanka@gmail.com
+
+[core]
+    editor = code --wait
+
+[push]
+    default = simple
+    autoSetupRemote = true
+
+[pull]
+    rebase = false
+
+[init]
+    defaultBranch = main
