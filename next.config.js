@@ -8,6 +8,14 @@ const nextConfig = {
   // Optimize for Vercel deployment
   poweredByHeader: false,
   compress: true,
+  // Ensure path mapping works in production
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': require('path').resolve(__dirname, 'src'),
+    };
+    return config;
+  },
 };
 
 module.exports = nextConfig;
